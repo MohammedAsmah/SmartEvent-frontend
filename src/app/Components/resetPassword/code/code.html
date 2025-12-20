@@ -1,0 +1,97 @@
+<app-navbar />
+
+<section class="vh-100 d-flex justify-content-center align-items-center">
+  <div class="card w-50 h-75 text-center">
+    <div class="card-header h5 text-white bg-primary">
+      Verify Reset Code
+    </div>
+
+    <div class="card-body px-5">
+      <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()">
+        <p class="card-text py-2">
+          Enter the 6-digit code we emailed to you so we can confirm it’s really you.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 my-4">
+  <input
+    #d1
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit1"
+    (keyup)="moveFocus($event, d2)"
+    autofocus
+  />
+
+  <input
+    #d2
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit2"
+    (keyup)="moveFocus($event, d3, d1)"
+  />
+
+  <input
+    #d3
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit3"
+    (keyup)="moveFocus($event, d4, d2)"
+  />
+
+  <input
+    #d4
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit4"
+    (keyup)="moveFocus($event, d5, d3)"
+  />
+
+  <input
+    #d5
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit5"
+    (keyup)="moveFocus($event, d6, d4)"
+  />
+
+  <input
+    #d6
+    maxlength="1"
+    type="text"
+    class="form-control text-center fs-3 py-2"
+    formControlName="digit6"
+  />
+</div>
+
+
+        <button type="submit" class="btn btn-primary w-100">
+          Verify Code
+        </button>
+
+        <div class="d-flex justify-content-between mt-4">
+          <a (click)="ResendCode()" class="text-primary" style="cursor: pointer;">Resend code</a>
+          <a href="/auth/login">Back to login</a>
+        </div>
+      </form>
+    </div>
+
+    <p
+      [ngStyle]="error_message ? { 'background-color': 'red' } : {}"
+      class="mt-2 text-center py-2 rounded"
+    >
+      {{ error_message }}
+    </p>
+
+    <p
+      [ngStyle]="success_message ? { 'background-color': '#e8f5e9' } : {}"
+      class="mt-2 text-center py-2 rounded text-success"
+    >
+      {{ success_message }}
+    </p>
+  </div>
+</section>

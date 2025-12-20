@@ -1,0 +1,198 @@
+<div class="container py-4">
+
+  <div class="row g-4">
+    <div class="my-3">
+    <a href="/addEvent" class="btn btn-success px-4 py-2 fw-semibold shadow-sm">
+        ➕ Add Event
+    </a>
+    <!-- Filter Header / Button -->
+<!-- Mobile Filter Toggle Button -->
+<div class="mt-1 d-lg-none mb-2">
+  <button 
+    class="btn btn-primary w-100"
+    type="button"
+    (click)="toggleFilter()"
+  >
+    🔍 Filter Events
+  </button>
+</div>
+
+<!-- Filter Form -->
+<form [formGroup]="filterForm" (ngSubmit)="filter()">
+
+  <!-- Collapse wrapper for small screens -->
+  <div [class.show]="isFilterOpen" class="collapse d-lg-block" id="mobileFilter">
+    <div class="row g-3 align-items-end bg-white p-3 shadow-sm rounded-3">
+
+      <!-- Type -->
+      <div class="col-lg-2 col-md-3 col-12">
+        <label class="form-label small fw-semibold">Type</label>
+        <select class="form-select form-select-sm" formControlName="type">
+          <option value="">All</option>
+          <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="col-lg-2 col-md-3 col-12">
+        <label class="form-label small fw-semibold">Status</label>
+        <select class="form-select form-select-sm" formControlName="status">
+          <option value="">All</option>
+          <option *ngFor="let status of eventStatuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+
+      <!-- Start Date -->
+      <div class="col-lg-3 col-md-3 col-12">
+        <label class="form-label small fw-semibold">Start</label>
+        <input type="date" class="form-control form-control-sm" formControlName="start">
+      </div>
+
+      <!-- End Date -->
+      <div class="col-lg-3 col-md-3 col-12">
+        <label class="form-label small fw-semibold">End</label>
+        <input type="date" class="form-control form-control-sm" formControlName="end">
+      </div>
+
+      <!-- Filter Button -->
+      <div class="col-lg-2 col-md-12 col-12">
+        <button type="submit" class="btn btn-success w-100 btn-sm fw-semibold">
+          Filter
+        </button>
+        <button (click)="resetFilterForm()" class="btn btn-danger w-100 btn-sm fw-semibold">
+          reset
+        </button>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+</div>
+
+
+    <!-- LOOP ON EVENTS -->
+    <div class="col-12 col-lg-4" *ngFor="let e of events()">
+      <article class="pointer "  (click)="ShowDetials(e.id)" >
+        <div class="card border-0  shadow-sm">
+
+          <!-- COVER IMAGE -->
+          <figure class="card-img-top m-0 overflow-hidden">
+            <img 
+              [src]="getImageUrl(e.couverture)"
+              class="img-fluid"
+              style="max-height: 180px; min-height: 180px; width: 100%; object-fit: cover;"
+              alt="event-cover"
+            >
+          </figure>
+
+          <!-- CARD BODY -->
+          <div class="card-body border  bg-white p-4">
+
+            <div class="entry-header mb-3">
+              <ul class="entry-meta list-unstyled d-flex mb-2">
+                <li>
+                  <span class="badge bg-primary">
+                    {{ e.type }}
+                  </span>
+                </li>
+              </ul>
+
+              <h2 class="card-title entry-title h4 mb-0">
+                <span class="link-dark text-decoration-none">
+                  {{ e.titre }}
+                </span>
+              </h2>
+            </div>
+
+            <p class="card-text entry-summary text-secondary">
+              {{ e.description }}
+            </p>
+
+            
+
+            <!-- STATUS -->
+            <span 
+              class="badge px-3 py-2"
+              [ngClass]="{
+                'bg-success': e.status === 'COMPLETED',
+                'bg-warning': e.status === 'ONGOING',
+                'bg-info': e.status === 'UPCOMING',
+                'bg-secondary': e.status === 'ARCHIVED'
+              }"
+            >
+              {{ e.status }}
+            </span>
+
+          </div>
+
+          <!-- FOOTER -->
+          <div class="card-footer border border-top-0 bg-white p-4">
+
+            <ul class="entry-meta list-unstyled d-flex align-items-center m-0">
+
+              <li class="d-flex align-items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+     fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+  <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  <path d="M4 0h1v2H4zm7 0h1v2h-1z"/>
+</svg>
+
+                <span class="ms-2 fs-7">
+                  {{ e.startDate | date:'mediumDate' }} → {{ e.endDate | date:'mediumDate' }}
+                </span>
+              </li>
+
+              <li>
+                <span class="px-3">•</span>
+              </li>
+
+              <li class="d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+     fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 0-2 2v7.586l2.293-2.293A1 1 0 0 1 3 9h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+  <path d="M5 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+</svg>
+
+
+                <span class="ms-2 fs-7">
+                  {{ e.imageIds.length }} images
+                </span>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+
+    <button 
+      class="btn btn-primary"
+      (click)="previousPage()"
+      [disabled]="pageNumber() === 0"
+    >
+      « Previous
+    </button>
+
+    <span class="fw-bold">
+      Page {{ pageNumber() + 1 }} / {{ totalPages() }}
+    </span>
+
+    <button 
+      class="btn btn-primary"
+      (click)="nextPage()"
+      [disabled]="pageNumber() >= totalPages() - 1"
+    >
+      Next »
+    </button>
+
+  </div>
+
+</div>

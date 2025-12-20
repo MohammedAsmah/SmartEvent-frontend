@@ -1,0 +1,92 @@
+<div class="card shadow-sm invitation-card">
+  <div class="card-body p-4">
+
+    <h4 class="text-center mb-4">
+      Send Invitation
+    </h4>
+
+    <form [formGroup]="invitationForm" (ngSubmit)="onSubmit()">
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="example@email.com"
+        >
+
+        <small class="text-danger"
+          *ngIf="invitationForm.controls['email'].touched 
+          && invitationForm.controls['email'].invalid">
+
+          <span *ngIf="invitationForm.controls['email'].errors?.['required']">
+            Email is required
+          </span>
+          <span *ngIf="invitationForm.controls['email'].errors?.['email']">
+            Invalid email format
+          </span>
+        </small>
+      </div>
+
+      <!-- First Name -->
+      <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          placeholder="First name"
+        >
+
+        <small class="text-danger"
+          *ngIf="invitationForm.controls['firstName'].touched 
+          && invitationForm.controls['firstName'].invalid">
+          First name is required
+        </small>
+      </div>
+
+      <!-- Last Name -->
+      <div class="mb-4">
+        <label class="form-label">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lastName"
+          placeholder="Last name"
+        >
+
+        <small class="text-danger"
+          *ngIf="invitationForm.controls['lastName'].touched 
+          && invitationForm.controls['lastName'].invalid">
+          Last name is required
+        </small>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errMessage" class="alert alert-danger text-center mb-3">
+        {{ errMessage }}
+      </div>
+
+      <div *ngIf="succsesseMessage" class="alert alert-success text-center mb-3">
+        {{ succsesseMessage }}
+      </div>
+
+      <!-- Submit -->
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="invitationForm.invalid"
+        >
+          Send Invitation
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+  <div class="spinnerContainer" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;" >
+  <div *ngIf="loading" class="spinner"></div></div>
+</div>

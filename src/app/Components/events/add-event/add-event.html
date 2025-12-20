@@ -1,0 +1,192 @@
+<div class="container mt-4 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="card-title mb-0">Créer un nouvel événement</h3>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Titre -->
+            <div class="mb-3">
+              <label for="titre" class="form-label">Titre <span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                id="titre" 
+                formControlName="titre" 
+                class="form-control"
+                [class.is-invalid]="eventForm.get('titre')?.invalid && eventForm.get('titre')?.touched"
+                placeholder="Entrez le titre de l'événement">
+              <div class="invalid-feedback" *ngIf="eventForm.get('titre')?.invalid && eventForm.get('titre')?.touched">
+                {{ getErrorMessage('titre') }}
+              </div>
+            </div>
+
+            <!-- Type et Statut - Row -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="type" class="form-label">Type d'événement <span class="text-danger">*</span></label>
+                <select 
+                  id="type" 
+                  formControlName="type" 
+                  class="form-select"
+                  [class.is-invalid]="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">
+                  <option value="">Sélectionner un type</option>
+                  <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">
+                  {{ getErrorMessage('type') }}
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="status" class="form-label">Statut</label>
+                <select 
+                  id="status" 
+                  formControlName="status" 
+                  class="form-select">
+                  <option *ngFor="let status of eventStatuses" [value]="status">{{ status }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+              <textarea 
+                id="description" 
+                formControlName="description" 
+                rows="5" 
+                class="form-control"
+                [class.is-invalid]="eventForm.get('description')?.invalid && eventForm.get('description')?.touched"
+                placeholder="Décrivez votre événement..."></textarea>
+              <div class="invalid-feedback" *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched">
+                {{ getErrorMessage('description') }}
+              </div>
+              <div class="form-text" *ngIf="eventForm.get('description')?.value">
+                {{ eventForm.get('description')?.value?.length || 0 }} / 5000 caractères
+              </div>
+            </div>
+
+            <!-- Dates - Row -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="startDate" class="form-label">Date de début <span class="text-danger">*</span></label>
+                <input 
+                  type="datetime-local" 
+                  id="startDate" 
+                  formControlName="startDate" 
+                  class="form-control"
+                  [class.is-invalid]="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched">
+                <div class="invalid-feedback" *ngIf="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched">
+                  {{ getErrorMessage('startDate') }}
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="endDate" class="form-label">Date de fin <span class="text-danger">*</span></label>
+                <input 
+                  type="datetime-local" 
+                  id="endDate" 
+                  formControlName="endDate" 
+                  class="form-control"
+                  [class.is-invalid]="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched">
+                <div class="invalid-feedback" *ngIf="eventForm.get('endDate')?.invalid && eventForm.get('endDate')?.touched">
+                  {{ getErrorMessage('endDate') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Localisation -->
+             <div id="map" style="width: 100%; height: 300px; margin-top: 10px;"></div>
+
+            <input type="text" formControlName="localisation" hidden>
+
+
+            <!-- Logo -->
+            <div class="mb-3">
+              <label for="logo" class="form-label">Logo</label>
+              <input 
+                type="file" 
+                id="logo" 
+                accept="image/*" 
+                (change)="onLogoSelected($event)"
+                class="form-control">
+              <div class="form-text">Format recommandé: JPG, PNG (max 10MB)</div>
+              <div *ngIf="logoPreview" class="mt-3">
+                <div class="card" style="max-width: 200px;">
+                  <img [src]="logoPreview" alt="Logo preview" class="card-img-top" style="height: 200px; object-fit: cover;">
+                  <div class="card-body p-2 text-center">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="removeLogo()">
+                      <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Couverture -->
+            <div class="mb-3">
+              <label for="couverture" class="form-label">Image de couverture</label>
+              <input 
+                type="file" 
+                id="couverture" 
+                accept="image/*" 
+                (change)="onCouvertureSelected($event)"
+                class="form-control">
+              <div class="form-text">Format recommandé: JPG, PNG (max 10MB)</div>
+              <div *ngIf="couverturePreview" class="mt-3">
+                <div class="card" style="max-width: 300px;">
+                  <img [src]="couverturePreview" alt="Couverture preview" class="card-img-top" style="height: 200px; object-fit: cover;">
+                  <div class="card-body p-2 text-center">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="removeCouverture()">
+                      <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Images multiples -->
+            <div class="mb-4">
+              <label for="images" class="form-label">Images supplémentaires</label>
+              <input 
+                type="file" 
+                id="images" 
+                accept="image/*" 
+                multiple 
+                (change)="onImagesSelected($event)"
+                class="form-control">
+              <div class="form-text">Vous pouvez sélectionner plusieurs images (max 10MB chacune)</div>
+              
+              <div class="row g-3 mt-2" *ngIf="imagePreviews.length > 0">
+                <div class="col-md-4 col-sm-6" *ngFor="let preview of imagePreviews; let i = index">
+                  <div class="card">
+                    <img [src]="preview" alt="Image preview" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body p-2 text-center">
+                      <button type="button" class="btn btn-sm btn-danger" (click)="removeImage(i)">
+                        <i class="bi bi-trash"></i> Supprimer
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-secondary" >
+                <i class="bi bi-x-circle"><a href="/events" class=" " >Annuler</a></i> 
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">
+                <i class="bi bi-check-circle"></i> Créer l'événement
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

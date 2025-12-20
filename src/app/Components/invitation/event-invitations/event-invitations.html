@@ -1,0 +1,108 @@
+<div   class="container parentContainer mt-4">
+<p *ngIf="deleteMessage" class="alert alert-success text-center mb-3" >{{deleteMessage}}</p>
+<p *ngIf="deleteErr" class="alert alert-danger text-center mb-3" >{{deleteErr}}</p>
+    <button (click)="showInvitationForm()" >Send Invitation</button>
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0 fw-semibold">Event Invitations</h5>
+        <span class="badge bg-secondary">
+          {{ eventInvitation?.length }} Invitations
+        </span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Invite</th>
+              <th>Email</th>
+              <th>Event</th>
+              <th>Status</th>
+              <th class="text-center">QR</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let invitation of eventInvitation; let i = index">
+
+              <!-- Index -->
+              <td class="text-muted">{{ i + 1 }}</td>
+
+              <!-- Invite name -->
+              <td>
+                <div class="fw-semibold">
+                  {{ invitation.invite?.firstName }}
+                  {{ invitation.invite?.lastName }}
+                </div>
+              </td>
+
+              <!-- Email -->
+              <td class="text-muted">
+                {{ invitation.invite?.email }}
+              </td>
+
+              <!-- Event -->
+              <td>
+                {{ invitation.event?.title }}
+              </td>
+
+              <!-- Status -->
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-warning text-dark': invitation.status === 'PENDING',
+                    'bg-success': invitation.status === 'ACCEPTED',
+                    'bg-danger': invitation.status === 'REJECTED'
+                  }">
+                  {{ invitation.status }}
+                </span>
+              </td>
+
+              <!-- QR Code -->
+              <td class="text-center">
+                <img
+                  *ngIf="invitation.qrCode"
+                  [src]="apiUrl+invitation.qrCode"
+                  alt="QR Code"
+                  width="40"
+                  height="40"
+                  class="rounded border"
+                >
+              </td>
+
+              <!-- Actions -->
+              <td class="text-end">
+                <button (click)="delteInvitation(invitation.id)" class="btn btn-sm btn-outline-danger">
+                  Delete
+                </button>
+              </td>
+
+            </tr>
+
+            <!-- Empty state -->
+            <tr *ngIf="!eventInvitation || eventInvitation.length === 0">
+              <td colspan="7" class="text-center text-muted py-4">
+                No invitations found
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+<div (click)="hideInvitationForm($event)" id="invitationForm" class="invitationFormContainer" >
+<app-send-invitation [eventId]="eventId"  class="invitationForm" />
+</div>
+</div>
+
+
+<p *ngIf="errorMessage" class="alert alert-danger text-center mb-3" >{{errorMessage}}</p>

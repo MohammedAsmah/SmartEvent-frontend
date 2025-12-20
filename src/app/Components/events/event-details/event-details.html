@@ -1,0 +1,69 @@
+<div class="parentContainer">
+<div class="event-wrapper" *ngIf="event">
+
+  <!-- Background Cover -->
+  <div class="cover-container">
+    <img [src]="apiUrl+event.couverture" class="cover-image" />
+    <div class="cover-overlay"></div>
+  </div>
+  
+
+  <!-- Event Card -->
+  <div class="event-card container">
+
+    <div class="event-header d-flex gap-4 align-items-center">
+      <img [src]="apiUrl+event.logo" class="event-logo shadow" />
+
+      <div>
+        <h1 class="event-title">{{ event.titre }}</h1>
+        <div class="d-flex gap-3 mt-2">
+          <span class="badge bg-primary px-3 py-2">{{ event.type }}</span>
+          <span class="badge bg-success px-3 py-2">{{ event.status }}</span>
+    <button (click)="updateEvent(event.id)" >Update the event</button>
+    <button (click)="showInvitationForm()" >Send Invitation</button>
+    <button (click)="loadEventInvitation()" >Invitations</button>
+  
+        </div>
+      </div>
+    </div>
+
+    <p class="event-description mt-4">
+      {{ event.description }}
+    </p>
+
+    <!-- Dates -->
+    <div class="event-dates row mt-4">
+      <div class="col-md-6">
+        <strong>Start Date:</strong><br />
+        {{ event.startDate | date:'fullDate' }} at {{ event.startDate | date:'shortTime' }}
+      </div>
+      <div class="col-md-6">
+        <strong>End Date:</strong><br />
+        {{ event.endDate | date:'fullDate' }} at {{ event.endDate | date:'shortTime' }}
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-section mt-5">
+      <h4 class="mb-3">Localisation</h4>
+      <app-location-picker [selectable]="mapSelectable" [localisation]="event.localisation" />
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section mt-5" *ngIf="eventImages?.length">
+      <h4 class="mb-3">Gallery</h4>
+
+      <div class="row g-3">
+        <div class="col-6 col-md-4 col-lg-3" *ngFor="let img of eventImages">
+          <img [src]="apiUrl+img.url" class="gallery-item shadow-sm" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div (click)="hideInvitationForm($event)" id="invitationForm" class="invitationFormContainer" >
+<app-send-invitation [eventId]="eventId"  class="invitationForm" />
+</div>
+</div>

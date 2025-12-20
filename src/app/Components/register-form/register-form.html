@@ -1,0 +1,67 @@
+<app-navbar/>
+<section class="p-3 mt-5 w-100 vh-100 d-flex align-items-center justify-content-center">
+  <div class="row w-100">
+    <div class="col-12">
+      <div class="card text-black shadow-sm" style="border-radius: 15px; max-height: 90vh; overflow-y: auto;">
+        <div class="card-body p-4">
+          <div class="row justify-content-center align-items-center">
+            
+            <!-- LEFT FORM COLUMN -->
+            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+              <p class="text-center text-body h3 fw-bold mb-3">Sign up</p>
+              <p [ngStyle]="success_message !== '' ? {'background-color': 'green'} : {}"
+                 class="mt-2 text-center py-2 rounded" >
+                {{success_message}}
+              </p>
+
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <input type="text" formControlName="firstName" class="form-control" placeholder="First Name">
+                </div>
+                <div class="mb-3">
+                  <input type="text" formControlName="lastName" class="form-control" placeholder="Last Name">
+                </div>
+                <div class="mb-3">
+                  <input type="email" formControlName="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="mb-3">
+                  <input type="number" formControlName="PhoneNumber" class="form-control" placeholder="Phone Number">
+                </div>
+                <div class="mb-3">
+                  <input type="text" formControlName="username" class="form-control" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                  <input type="password" formControlName="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="mb-4">
+                  <input type="password" formControlName="passAgain" class="form-control" placeholder="Repeat password">
+                </div>
+
+                <div class="d-flex justify-content-center mb-3">
+                  <button type="submit" class="btn btn-primary btn-md px-4">Register</button>
+                </div>
+
+                <p [ngStyle]="error_message !== '' ? {'background-color': 'red'} : {}"
+                   class="mt-2 text-center py-2 rounded">
+                   {{error_message}}
+                </p>
+              </form>
+
+              <div class="text-center mt-3">
+                <p class="small fw-bold mb-0">Have an account?
+                  <a href="auth/login" class="link-danger">Login</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- RIGHT IMAGE COLUMN -->
+            <div class="col-md-10 col-lg-6 col-xl-6 d-none d-lg-flex align-items-center order-1 order-lg-2">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                   class="img-fluid rounded" alt="Sample image" style="max-height: 70vh; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

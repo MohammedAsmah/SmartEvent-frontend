@@ -1,0 +1,26 @@
+<app-navbar/>
+<section class="vh-100 d-flex justify-content-center align-items-center" >
+<div class="card w-50 h-75 text-center">
+    <div class="card-header h5 text-white bg-primary">Password Reset</div>
+    <div class="card-body px-5">
+        <form [formGroup]="emailForm" (ngSubmit)="onsubmit()" >
+        <p class="card-text py-2">
+            Enter your email address and we'll send you an email with instructions to reset your password.
+        </p>
+        
+        <div data-mdb-input-init class="form-outline">
+            <input type="email" formControlName="email" id="typeEmail" class="form-control my-3" />
+            <label class="form-label" for="typeEmail">Email input</label>
+        </div>
+        <button type="submit" data-mdb-ripple-init class="btn btn-primary w-100">Reset password</button>
+        <div class="d-flex justify-content-between mt-4">
+            <a class="" href="auth/login">Login</a>
+            <a class="" href="auth/register">Register</a>
+        </div></form>
+    </div>
+    <p [ngStyle]="error_message !== '' ? {'background-color': 'red'} : {}"
+                   class="mt-2 text-center py-2 rounded">
+                   {{error_message}}
+                </p>
+</div>
+</section>

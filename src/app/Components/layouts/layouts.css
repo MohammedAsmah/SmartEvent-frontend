@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure container takes full width */
+.container-fluid {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Remove gaps between columns */
+.row.g-0 {
+  margin: 0;
+}
+
+/* Sidebar styling - fixed width */
+app-sidebar {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
+
+/* Main content takes remaining space */
+main.col {
+  flex: 1;
+  overflow-x: hidden;
+}
+
+/* Full height layout */
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+/* Optional: Make sidebar scrollable if content is tall */
+app-sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Remove chartjs monitor divs if not needed */
+.chartjs-size-monitor {
+  display: none;
+}
+.headerApp{
+    width: 100%;
+}
