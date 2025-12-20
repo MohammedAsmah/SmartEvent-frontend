@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # EventsFrontend
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
@@ -57,3 +58,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# SmartEvent-frontend
+>>>>>>> c1b1b56e1efc3129699911b105566ac0af3023f1
